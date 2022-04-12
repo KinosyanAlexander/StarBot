@@ -1,0 +1,3 @@
+BOT_TOKEN = "5006778926:AAGdxokBBiE1jbl20jtfaLlWxPGTN3LscGU"
+DATABASE = 'Dictations.db'
+TMP_DATA_FILENAME = 'users_data'
