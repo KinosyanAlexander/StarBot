@@ -16,23 +16,12 @@ dp = Dispatcher(bot, storage=storage)
 logging.basicConfig(level=logging.INFO)
 
 async def on_startup(dp):
-    await bot.set_webhook(WEBHOOK_URL)
-    # insert code here to run it after start
+    await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
 
 async def on_shutdown(dp):
-    logging.warning('Shutting down..')
-
-    # insert code here to run it before shutdown
-    # users.close() ???
-    # Remove webhook (not acceptable in some cases)
     await bot.delete_webhook()
-
-    # Close DB connection (if used)
-    await dp.storage.close()
-    await dp.storage.wait_closed()
-
-    logging.warning('Bye!')
+    logging.info('Bye!')
 
 
 from commands import *
