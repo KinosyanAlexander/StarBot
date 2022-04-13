@@ -29,6 +29,7 @@ nipype==1.7.0
 numpy==1.21.4
 packaging==21.3
 pandas==1.1.5
+pathlib==1.0.1
 Pillow==8.4.0
 prov==2.0.0
 pydot==1.4.2
@@ -42,7 +43,7 @@ scipy==1.7.3
 simplejson==3.17.6
 six==1.16.0
 traits==6.3.2
-typing-extensions==4.0.1
+typing_extensions==4.0.1
 urllib3==1.26.7
 yarl==1.7.2
 zipp==3.6.0
