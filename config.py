@@ -1,13 +1,16 @@
 import os
 
 
-BOT_TOKEN = "5006778926:AAGdxokBBiE1jbl20jtfaLlWxPGTN3LscGU"
-DATABASE = 'Dictations.db'
-TMP_DATA_FILENAME = 'users_data'
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+DATA_PATH = 'data'
+DATABASE = os.path.join(DATA_PATH, 'Dictations.db')
+TMP_DATA = os.path.join(DATA_PATH, 'users_data')
 
 # webhook settings
-WEBHOOK_HOST = 'https://stormy-dawn-44989.herokuapp.com'
-WEBHOOK_PATH = '/webhook/loh'
+HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
+WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
+SECRET_PATH = os.getenv('SECRET_PATH')
+WEBHOOK_PATH = '/webhook/{SECRET_PATH}'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings

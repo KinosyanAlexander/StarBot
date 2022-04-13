@@ -1,7 +1,7 @@
 import shelve
 from aiogram import types
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from config import TMP_DATA_FILENAME, DATABASE
+from config import TMP_DATA, DATABASE
 from utils import Database, User
 
 
@@ -17,7 +17,7 @@ is_words_correct = lambda message: all([(line.count(' = ') == 1) for line in mes
 is_markup_ans_correct = lambda markup: (lambda message: message.text in markup)
 
 database = Database(DATABASE)
-users = shelve.open(TMP_DATA_FILENAME, writeback=True)
+users = shelve.open(TMP_DATA, writeback=True)
 
 
 class Dictation(StatesGroup):
