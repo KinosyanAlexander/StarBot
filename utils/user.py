@@ -1,11 +1,11 @@
 from random import shuffle
+from .database import Database
 
 
 class User(object):
-    def __init__(self, user_id):
+    def __init__(self, user_id: str):
         self.id = user_id
         self.current = []
-        self.data_from = 'self'
         self.sb_data = ['', '', '']
         self.words = []
         self.correct_answers = 0
@@ -13,14 +13,16 @@ class User(object):
         self.counter = 0
         self.wrong_answers = []
     
-    def get_words_from_text(self, text):
+    def get_words_from_text(self, text: str) -> list:
+        '''Берет слова из текста пользователя'''
         data = text.split('\n')
         self.words_count = len(data)
         self.words = list(map(lambda x: x.split(' = '), data))
         shuffle(self.words)
         return self.words
     
-    def get_words_from_sb(self, database, sb_data=[]):
+    def get_words_from_sb(self, database: Database, sb_data: list =[]) -> list:
+        '''Берет слова из конкретного модуля из базы данных database'''
         if sb_data:
             self.sb_data = sb_data
         self.words = database.get_module(*self.sb_data)
@@ -28,7 +30,8 @@ class User(object):
         shuffle(self.words)
         return self.words
     
-    def check_answer(self, ans):
+    def check_answer(self, ans: str) -> bool:
+        '''Проверяет ответ на верность.'''
         if self.current[0] == ans.strip():
             self.correct_answers += 1
             return True
@@ -36,17 +39,20 @@ class User(object):
             self.wrong_answers.append(self.current)
             return False
     
-    def next_word(self):
+    def next_word(self) -> list:
+        '''Дает следущую пару слов. Если все были выданы, дает ошибку StopIteration'''
         if self.counter == self.words_count:
             raise StopIteration
         self.current = self.words[self.counter]
         self.counter += 1
         return self.current
     
-    def get_success(self):
+    def get_success(self) -> float:
+        '''Возвращает процент правильных ответов'''
         return self.correct_answers / self.words_count * 100
     
     def reset(self):
+        '''Сбрасывает параметры юзера для повторного диктанта'''
         self.current = []
         self.correct_answers = 0
         self.counter = 0

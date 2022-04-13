@@ -8,6 +8,8 @@ from utils import Database, User
 DATA_FROM_MARKUP = ['указать модуль', 'вставить слова самому']
 END_MARKUP = ['Давай по новой, Миша...', 'Здесь сессия запрещена. Сессию вырубай...']
 STARTING_MARKUP = ['Да!', 'Нет(', 'Выйти']
+START_SESSION_MARKUP = ['начать диктант', 'получить слова']
+CLOSE_SESSION_MARKUP = ['Разбудить бота']
 
 SB_CLASS_MARKUP = ['7', '8', '9']
 SB_MODULE_NUMBER_MARKUP = [str(i) for i in range(1, 7)]
@@ -21,11 +23,14 @@ users = shelve.open(TMP_DATA, writeback=True)
 
 
 class Dictation(StatesGroup):
+    start_session = State()
+    run_dictation = State()
     data_from = State()
     words = State()
     starting_game = State()
     game = State()
     end_game = State()
+    close_session = State()
 
 
 class DictationFromSB(StatesGroup):
