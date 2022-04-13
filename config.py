@@ -10,7 +10,7 @@ TMP_DATA = os.path.join(DATA_PATH, 'users_data')
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
 WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
 SECRET_PATH = os.getenv('SECRET_PATH')
-WEBHOOK_PATH = '/webhook/{SECRET_PATH}'
+WEBHOOK_PATH = f'/webhook/{SECRET_PATH}'
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
 # webserver settings
