@@ -41,4 +41,4 @@ def main(local=True):
 if __name__ == "__main__":
     from commands import *
 
-    main(local=True)
+    main(local=False)
