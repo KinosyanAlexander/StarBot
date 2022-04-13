@@ -32,7 +32,7 @@ class User(object):
     
     def check_answer(self, ans: str) -> bool:
         '''Проверяет ответ на верность.'''
-        if self.current[0] == ans.strip():
+        if self.current[0].lower() == ans.lower().strip():
             self.correct_answers += 1
             return True
         else:

@@ -13,10 +13,12 @@ CLOSE_SESSION_MARKUP = ['Разбудить бота']
 
 SB_CLASS_MARKUP = ['7', '8', '9']
 SB_MODULE_NUMBER_MARKUP = [str(i) for i in range(1, 7)]
-SB_MODULE_ID_MARKUP = ['a', 'b', 'c', 'e', 'f', 'i', 'rus']
+SB_MODULE_ID_MARKUPS = {'7': ['a', 'b', 'c', 'e', 'f', 'i', 'rus'],
+                        '8': ['a', 'b', 'c', 'e', 'f', 'h', 'rus']}
 
 is_words_correct = lambda message: all([(line.count(' = ') == 1) for line in message.text.split('\n')])
 is_markup_ans_correct = lambda markup: (lambda message: message.text in markup)
+is_module_id_ans_correct = lambda message: message.text in SB_MODULE_ID_MARKUPS[get_user(message).sb_data[0]]
 
 database = Database(DATABASE)
 users = shelve.open(TMP_DATA, writeback=True)

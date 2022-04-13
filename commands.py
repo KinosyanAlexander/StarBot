@@ -6,13 +6,14 @@ from bot import dp
 from utils import User, users, database
 from utils import Dictation, DictationFromSB
 from utils import DATA_FROM_MARKUP, END_MARKUP, STARTING_MARKUP
-from utils import SB_CLASS_MARKUP, SB_MODULE_NUMBER_MARKUP, SB_MODULE_ID_MARKUP
+from utils import SB_CLASS_MARKUP, SB_MODULE_NUMBER_MARKUP, SB_MODULE_ID_MARKUPS
 from utils import START_SESSION_MARKUP, CLOSE_SESSION_MARKUP
-from utils import is_markup_ans_correct, is_words_correct
+from utils import is_markup_ans_correct, is_words_correct, is_module_id_ans_correct
 from utils import generate_markup, define_user
 
 
 @dp.message_handler(commands=["start"], state='*')
+@dp.message_handler(is_markup_ans_correct(CLOSE_SESSION_MARKUP), state=Dictation.close_session)
 async def start(message: types.Message):
     '''
     Приветствие. Начально меню. Начало сессии. В users добавляет пользователя (класс User).
@@ -44,14 +45,6 @@ async def exit_session(message: types.Message, user: User, state: FSMContext):
     logging.info(f'Canceled session for user {str(message.from_user.id)}')
     await message.answer('Ну лады. До скорого.', reply_markup=generate_markup(CLOSE_SESSION_MARKUP))
     await Dictation.close_session.set()
-
-
-@dp.message_handler(state=Dictation.close_session)
-async def turn_on(message: types.Message, state: FSMContext):
-    '''Если сессия закрыта, ждет пока пользователь нажмет кнопку, чтобы включить бота'''
-    if message.text == CLOSE_SESSION_MARKUP[0]:
-        await state.finish()
-        await start(message)
 
 
 @dp.message_handler(define_user, is_markup_ans_correct(START_SESSION_MARKUP), state=Dictation.start_session)
@@ -98,10 +91,10 @@ async def get_module_number(message: types.Message, user: User):
     '''Фиксирует информацию о модуле. Далее спрашивает про подмодуль.'''
     user.sb_data[1] = message.text
     await DictationFromSB.module_id.set()
-    await message.answer('Какой подраздел модуля интересует?', reply_markup=generate_markup(SB_MODULE_ID_MARKUP))
+    await message.answer('Какой подраздел модуля интересует?', reply_markup=generate_markup(SB_MODULE_ID_MARKUPS[user.sb_data[0]]))
 
 
-@dp.message_handler(define_user, is_markup_ans_correct(SB_MODULE_ID_MARKUP), state=DictationFromSB.module_id)
+@dp.message_handler(define_user, is_module_id_ans_correct, state=DictationFromSB.module_id)
 async def get_module_id(message: types.Message, user: User):
     '''Формирует диктант (из учебника). Спрашивает о готовности начать.'''
     user.sb_data[2] = message.text
