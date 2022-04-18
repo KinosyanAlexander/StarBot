@@ -1,4 +1,5 @@
 from random import shuffle
+from typing import List
 from .database import Database
 
 
@@ -13,7 +14,7 @@ class User(object):
         self.counter = 0
         self.wrong_answers = []
     
-    def get_words_from_text(self, text: str) -> list:
+    def get_words_from_text(self, text: str) -> List[List[str]]:
         '''Берет слова из текста пользователя'''
         data = text.split('\n')
         self.words_count = len(data)
@@ -21,7 +22,7 @@ class User(object):
         shuffle(self.words)
         return self.words
     
-    def get_words_from_sb(self, database: Database, sb_data: list =[]) -> list:
+    def get_words_from_sb(self, database: Database, sb_data: List[str]=[]) -> List[List[str]]:
         '''Берет слова из конкретного модуля из базы данных database'''
         if sb_data:
             self.sb_data = sb_data
@@ -31,7 +32,7 @@ class User(object):
         return self.words
     
     def check_answer(self, ans: str) -> bool:
-        '''Проверяет ответ на верность.'''
+        '''Проверяет ответ на верность'''
         if self.current[0].lower() == ans.lower().strip():
             self.correct_answers += 1
             return True
@@ -39,7 +40,7 @@ class User(object):
             self.wrong_answers.append(self.current)
             return False
     
-    def next_word(self) -> list:
+    def next_word(self) -> List[str]:
         '''Дает следущую пару слов. Если все были выданы, дает ошибку StopIteration'''
         if self.counter == self.words_count:
             raise StopIteration
@@ -51,7 +52,7 @@ class User(object):
         '''Возвращает процент правильных ответов'''
         return self.correct_answers / self.words_count * 100
     
-    def reset(self):
+    def reset(self) -> None:
         '''Сбрасывает параметры юзера для повторного диктанта'''
         self.current = []
         self.correct_answers = 0
@@ -59,5 +60,5 @@ class User(object):
         self.wrong_answers = []
         shuffle(self.words)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'<User id: {self.user_id}, is_game: {self.is_game}>'

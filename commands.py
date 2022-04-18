@@ -135,10 +135,10 @@ async def game(message: types.Message, user: User, first=False):
         if success:
             await message.answer('Харош! Все верно!')
         else:
-            await message.answer(f'Лох! Правильно будет:\n\n{user.current[0]}')
+            await message.answer(f'Неа! Правильно будет:\n\n{user.current[0]}')
     try:
         word = str(user.next_word()[1])
-        await message.answer(word)
+        await message.answer(f'Переведи:\n\n{word}')
         # await message.answer(word)
     except StopIteration:
         await message.answer('Поздравляю! вы ответили правильно на {:.2f}% вопросов.'.format(user.get_success()))

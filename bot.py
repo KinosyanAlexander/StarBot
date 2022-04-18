@@ -21,8 +21,18 @@ async def on_startup(dp):
 
 
 async def on_shutdown(dp):
+    logging.warning('Shutting down..')
+
+    # insert code here to run it before shutdown
+
+    # Remove webhook (not acceptable in some cases)
     await bot.delete_webhook()
-    logging.info('Bye!')
+
+    # Close DB connection (if used)
+    await dp.storage.close()
+    await dp.storage.wait_closed()
+
+    logging.warning('Bye!')
 
 
 def main(local=True):
@@ -41,4 +51,4 @@ def main(local=True):
 if __name__ == "__main__":
     from commands import *
 
-    main(local=False)
+    main(local=True)

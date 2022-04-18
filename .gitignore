@@ -1,3 +1,7 @@
 # ignore some data files
 *.dat
 *.dir
+commands_2.py
+images
+*.json
+*.env
