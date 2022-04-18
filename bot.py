@@ -4,6 +4,7 @@ import logging
 from aiogram import Bot, Dispatcher, executor, types
 from config import BOT_TOKEN
 from config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
+from config import APP_MODE
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.executor import start_webhook
 
@@ -35,10 +36,10 @@ async def on_shutdown(dp):
     logging.warning('Bye!')
 
 
-def main(local=True):
-    if local:
+def main(mode='dev'):
+    if mode == 'dev':
         executor.start_polling(dp, skip_updates=True)
-    else:
+    elif mode == 'prod':
         start_webhook(dispatcher=dp,
                       webhook_path=WEBHOOK_PATH,
                       on_startup=on_startup,
@@ -51,4 +52,4 @@ def main(local=True):
 if __name__ == "__main__":
     from commands import *
 
-    main(local=True)
+    main(mode=APP_MODE)
