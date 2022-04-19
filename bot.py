@@ -1,7 +1,6 @@
 #!venv/bin/python
 import logging
-import shelve
-import requests
+import aiohttp
 
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -10,7 +9,7 @@ from aiogram.utils.executor import start_webhook
 
 from config import BOT_TOKEN
 from config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
-from config import APP_MODE, TMP_DATA
+from config import APP_MODE
 
 
 bot = Bot(token=BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -28,7 +27,9 @@ async def on_startup(dp):
 
 
 async def on_shutdown(dp):
-    await requests.get(WEBHOOK_URL)
+    async with aiohttp.ClientSession() as session:
+        async with session.get(WEBHOOK_URL):
+            logging.info('Get request done')
     logging.info('Is it work?')
     logging.warning('Bye! Shutting down webhook connection')
 
