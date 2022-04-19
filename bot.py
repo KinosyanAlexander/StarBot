@@ -6,34 +6,26 @@ from config import BOT_TOKEN
 from config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
 from config import APP_MODE
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import start_webhook
 
 
 bot = Bot(token=BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 
+logging.basicConfig(level=logging.INFO)
+
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
-
-logging.basicConfig(level=logging.INFO)
+dp.middleware.setup(LoggingMiddleware())
 
 
 async def on_startup(dp):
+    logging.warning('Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
 
 async def on_shutdown(dp):
-    logging.warning('Shutting down..')
-
-    # insert code here to run it before shutdown
-
-    # Remove webhook (not acceptable in some cases)
-    await bot.delete_webhook()
-
-    # Close DB connection (if used)
-    await dp.storage.close()
-    await dp.storage.wait_closed()
-
-    logging.warning('Bye!')
+    logging.warning('Bye! Shutting down webhook connection')
 
 
 def main(mode='dev'):
