@@ -1,15 +1,15 @@
 import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from bot import dp
+from bot import dp, users
 
-from utils import User, users, database
+from utils import User
 from utils import Dictation, DictationFromSB
 from utils import DATA_FROM_MARKUP, END_MARKUP, STARTING_MARKUP
 from utils import SB_CLASS_MARKUP, SB_MODULE_NUMBER_MARKUP, SB_MODULE_ID_MARKUPS
 from utils import START_SESSION_MARKUP, CLOSE_SESSION_MARKUP
 from utils import is_markup_ans_correct, is_words_correct, is_module_id_ans_correct
-from utils import generate_markup, define_user
+from utils import generate_markup, define_user, dictation_db
 
 
 @dp.message_handler(commands=["start"], state='*')
@@ -98,7 +98,7 @@ async def get_module_number(message: types.Message, user: User):
 async def get_module_id(message: types.Message, user: User):
     '''Формирует диктант (из учебника). Спрашивает о готовности начать.'''
     user.sb_data[2] = message.text
-    user.get_words_from_sb(database)
+    user.get_words_from_sb(dictation_db)
     
     await message.answer('Готовы начать мини-диктант?', reply_markup=generate_markup(STARTING_MARKUP))
     await Dictation.starting_game.set()

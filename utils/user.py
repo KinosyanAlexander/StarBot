@@ -1,6 +1,6 @@
 from random import shuffle
 from typing import List
-from .database import Database
+from .dictation_db import DictationDatabase
 
 
 class User(object):
@@ -22,7 +22,7 @@ class User(object):
         shuffle(self.words)
         return self.words
     
-    def get_words_from_sb(self, database: Database, sb_data: List[str]=[]) -> List[List[str]]:
+    def get_words_from_sb(self, database: DictationDatabase, sb_data: List[str]=[]) -> List[List[str]]:
         '''Берет слова из конкретного модуля из базы данных database'''
         if sb_data:
             self.sb_data = sb_data

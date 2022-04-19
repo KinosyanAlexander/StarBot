@@ -1,8 +1,9 @@
-import shelve
 from aiogram import types
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from config import TMP_DATA, DATABASE
-from utils import Database, User
+
+from config import DATABASE
+from utils import User, DictationDatabase
+from bot import users
 
 
 DATA_FROM_MARKUP = ['указать модуль', 'вставить слова самому']
@@ -20,9 +21,7 @@ is_words_correct = lambda message: all([(line.count(' = ') == 1) for line in mes
 is_markup_ans_correct = lambda markup: (lambda message: message.text in markup)
 is_module_id_ans_correct = lambda message: message.text in SB_MODULE_ID_MARKUPS[get_user(message).sb_data[0]]
 
-database = Database(DATABASE)
-users = shelve.open(TMP_DATA, writeback=True)
-
+dictation_db = DictationDatabase(DATABASE)
 
 class Dictation(StatesGroup):
     start_session = State()

@@ -1,6 +1,7 @@
 import os
 
 
+# bot settings
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 DATA_PATH = 'data'
 DATABASE = os.path.join(DATA_PATH, 'Dictations.db')
@@ -18,4 +19,4 @@ WEBAPP_HOST = '0.0.0.0'  # or ip
 WEBAPP_PORT = os.getenv('PORT', default=8000)
 
 # Mode settings
-APP_MODE = os.getenv('APP_MODE') #prod or dev
+APP_MODE = os.getenv('APP_MODE') # prod or dev

@@ -1,5 +1,5 @@
 from .user import User
-from .database import Database
+from .dictation_db import DictationDatabase
 from .commands_utils import *
 
-__all__ = [User, Database]
+__all__ = [User, DictationDatabase]

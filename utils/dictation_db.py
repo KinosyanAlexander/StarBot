@@ -2,7 +2,7 @@ import sqlite3
 import json
 
 
-class Database:
+class DictationDatabase:
     def __init__(self, filename: str):
         self.con = sqlite3.connect(filename)
         self.cur = self.con.cursor()
@@ -15,5 +15,5 @@ class Database:
 
 
 if __name__ == "__main__":
-    db = Database('Dictations.db')
+    db = DictationDatabase('Dictations.db')
     print(db.get_module('7', '2', 'a'))

@@ -1,13 +1,16 @@
 #!venv/bin/python
 import logging
+import shelve
+import requests
 
 from aiogram import Bot, Dispatcher, executor, types
-from config import BOT_TOKEN
-from config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
-from config import APP_MODE
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.executor import start_webhook
+
+from config import BOT_TOKEN
+from config import WEBHOOK_PATH, WEBAPP_HOST, WEBAPP_PORT, WEBHOOK_URL
+from config import APP_MODE, TMP_DATA
 
 
 bot = Bot(token=BOT_TOKEN, parse_mode=types.ParseMode.HTML)
@@ -18,6 +21,8 @@ storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 
+users = shelve.open(TMP_DATA, writeback=True)
+
 
 async def on_startup(dp):
     logging.warning('Starting connection. ')
@@ -25,6 +30,8 @@ async def on_startup(dp):
 
 
 async def on_shutdown(dp):
+    await requests.get(WEBHOOK_URL)
+    logging.info('Is it work?')
     logging.warning('Bye! Shutting down webhook connection')
 
 
