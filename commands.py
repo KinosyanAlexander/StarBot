@@ -1,7 +1,7 @@
 import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from bot import dp, users
+from bot import dp
 
 from utils import User
 from utils import Dictation, DictationFromSB
@@ -9,7 +9,7 @@ from utils import DATA_FROM_MARKUP, END_MARKUP, STARTING_MARKUP
 from utils import SB_CLASS_MARKUP, SB_MODULE_NUMBER_MARKUP, SB_MODULE_ID_MARKUPS
 from utils import START_SESSION_MARKUP, CLOSE_SESSION_MARKUP
 from utils import is_markup_ans_correct, is_words_correct, is_module_id_ans_correct
-from utils import generate_markup, define_user, dictation_db
+from utils import generate_markup, define_user, dictation_db, users
 
 
 @dp.message_handler(commands=["start"], state='*')

@@ -21,8 +21,6 @@ storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 
-users = shelve.open(TMP_DATA, writeback=True)
-
 
 async def on_startup(dp):
     logging.warning('Starting connection. ')
