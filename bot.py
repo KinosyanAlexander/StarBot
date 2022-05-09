@@ -28,9 +28,8 @@ async def on_startup(dp):
 
 async def on_shutdown(dp):
     async with aiohttp.ClientSession() as session:
-        async with session.get(WEBHOOK_URL):
+        async with session.get(WEBHOOK_URL): # helping not to shut down on heroku
             logging.info('Get request done')
-    logging.info('Is it work?')
     logging.warning('Bye! Shutting down webhook connection')
 
 

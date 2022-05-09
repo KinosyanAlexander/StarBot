@@ -4,6 +4,7 @@ from .dictation_db import DictationDatabase
 
 
 class User(object):
+    '''Реализует функционал, необходимый для проведения диктанат для юзера'''
     def __init__(self, user_id: str):
         self.id = user_id
         self.current = []

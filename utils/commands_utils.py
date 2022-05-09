@@ -7,15 +7,17 @@ from utils import User, DictationDatabase
 
 
 DATA_FROM_MARKUP = ['указать модуль', 'вставить слова самому']
-END_MARKUP = ['Давай по новой, Миша...', 'Здесь сессия запрещена. Сессию вырубай...']
+# END_MARKUP = ['Давай по новой, Миша...', 'Здесь сессия запрещена. Сессию вырубай...']
+END_MARKUP = ['Начать заново', 'Закончить сессию']
 STARTING_MARKUP = ['Да!', 'Нет(', 'Выйти']
-START_SESSION_MARKUP = ['начать диктант', 'получить слова']
+START_SESSION_MARKUP = ['начать диктант'] # , 'получить слова']
 CLOSE_SESSION_MARKUP = ['Разбудить бота']
 
 SB_CLASS_MARKUP = ['7', '8', '9']
 SB_MODULE_NUMBER_MARKUP = [str(i) for i in range(1, 7)]
 SB_MODULE_ID_MARKUPS = {'7': ['a', 'b', 'c', 'e', 'f', 'i', 'rus'],
-                        '8': ['a', 'b', 'c', 'e', 'f', 'h', 'rus']}
+                        '8': ['a', 'b', 'c', 'e', 'f', 'h', 'rus'],
+                        '9': ['a', 'b', 'c', 'e', 'f', 'h']}
 
 is_words_correct = lambda message: all([(line.count(' = ') == 1) for line in message.text.split('\n')])
 is_markup_ans_correct = lambda markup: (lambda message: message.text in markup)
@@ -62,6 +64,3 @@ def generate_markup(items: list) -> types.ReplyKeyboardMarkup:
 
 async def define_user(message: types.Message) -> dict:
     return {'user': get_user(message)}
-
-
-

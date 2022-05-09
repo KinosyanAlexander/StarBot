@@ -13,7 +13,7 @@ from utils import generate_markup, define_user, dictation_db, users
 
 
 @dp.message_handler(commands=["start"], state='*')
-@dp.message_handler(is_markup_ans_correct(CLOSE_SESSION_MARKUP), state=Dictation.close_session)
+@dp.message_handler(is_markup_ans_correct(CLOSE_SESSION_MARKUP), state=[Dictation.close_session, None])
 async def start(message: types.Message):
     '''
     Приветствие. Начально меню. Начало сессии. В users добавляет пользователя (класс User).
@@ -54,7 +54,7 @@ async def choose_option(message: types.Message, user: User, state: FSMContext):
     '''
     if message.text == START_SESSION_MARKUP[0]:
         await run_dictation(message, user)
-    else:
+    elif message.text == START_SESSION_MARKUP[1]:
         await exit_session(message, user, state)
 
 
@@ -158,7 +158,6 @@ async def end_game(message: types.Message, user: User, state: FSMContext):
         await message.answer('Ок. Пошли заново:')
         await game(message, user, first=True)
     elif message.text == END_MARKUP[1]: # end
-        # await message.answer('Ну лады. До скорого.')
         await exit_session(message, user, state)
 
 
